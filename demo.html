@@ -123,6 +123,15 @@ h4 { font-size: 14.5px; font-weight: 650; margin: 16px 0 6px; }
 .pill.ok { color: var(--cp-success); border-color: var(--cp-success); background: transparent; }
 .pill.warn { color: var(--cp-warning); border-color: var(--cp-warning); background: transparent; }
 .pill.danger { color: var(--cp-danger); border-color: var(--cp-danger); background: transparent; }
+.new-badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .06em; padding: 2px 7px; border-radius: 999px;
+  background: var(--cp-danger); color: var(--cp-accent-fg); vertical-align: middle; margin-left: 8px; animation: wnpulse 2s ease-in-out infinite; }
+html[data-theme="dark"] .new-badge { color: #1a1a1a; }
+@keyframes wnpulse { 0%,100% { opacity: 1; } 50% { opacity: .55; } }
+.wn-item { border: 1px solid var(--cp-border); border-radius: 10px; background: var(--cp-surface); padding: 14px 18px; margin-bottom: 12px; }
+.wn-item .wn-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.wn-item .wn-date { font-size: 12px; color: var(--cp-text-soft); font-family: Consolas, "Courier New", Courier, monospace; }
+.wn-item h4 { margin: 6px 0 4px; }
+.wn-item p { margin: 0; font-size: 13.5px; color: var(--cp-text-muted); }
 
 pre.code {
   background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 0.625rem;
@@ -257,6 +266,7 @@ ul.tight li { margin: 3px 0; max-width: 76ch; }
     </div>
     <div class="navgrp">Learn</div>
     <a class="navlink active" data-sec="overview"><span class="k">🏠</span>Overview</a>
+    <a class="navlink" data-sec="whatsnew" id="nav-whatsnew"><span class="k">📰</span>What's New</a>
     <a class="navlink" data-sec="pipeline"><span class="k">🔄</span>How It Works</a>
     <a class="navlink" data-sec="anatomy"><span class="k">🧬</span>Workflow Anatomy</a>
     <a class="navlink" data-sec="engines"><span class="k">🤖</span>AI Engines (Agents)</a>
@@ -351,6 +361,34 @@ Include:
       <tr><td>Frontmatter</td><td>The YAML block between <code>---</code> markers: triggers, permissions, engine, network, tools, safe-outputs, timeouts.</td></tr>
     </table>
     <p class="small muted">Official docs: <a href="https://github.github.com/gh-aw/" target="_blank">github.github.com/gh-aw</a> &middot; Samples: <a href="https://github.com/githubnext/agentics" target="_blank">githubnext/agentics</a></p>
+  </section>
+
+  <!-- ================= WHAT'S NEW ================= -->
+  <section class="section" id="sec-whatsnew">
+    <div class="eyebrow">Updates</div>
+    <h2 class="title">📰 What's New in the gh-aw world</h2>
+    <p class="lede">Recent releases and notable changes in GitHub Agentic Workflows. Entries added in the last 14 days carry a <span class="new-badge">NEW</span> badge. This section is <strong>maintained by an agentic workflow</strong>: <a href="https://github.com/haslam93/gh-aw-demo-lab/blob/main/.github/workflows/site-updater.md" target="_blank">site-updater.md</a> checks the gh-aw project weekly and opens a PR updating the JSON data below — the lab demoing itself. 🐕🦴</p>
+
+    <div id="wn-list"></div>
+
+    <!--
+      WHATSNEW-DATA: machine-maintained by .github/workflows/site-updater.md in haslam93/gh-aw-demo-lab.
+      To add an entry, append an object to the JSON array below (newest first, max 15 entries):
+        { "date": "YYYY-MM-DD", "tag": "vX.Y.Z | docs | lab", "title": "...", "summary": "...", "link": "https://..." }
+      Keep this JSON valid — it is parsed by renderWhatsNew() at load time.
+    -->
+    <script type="application/json" id="whatsnew-data">
+[
+  { "date": "2026-07-07", "tag": "v0.82.3", "title": "dismiss-review safe output + compiler job dependency control", "summary": "Workflows can now programmatically dismiss their own PR reviews with actor-bound guards; jobs.<generated>.needs augments compiler-generated job dependencies; close-issue duplicate_of creates a proper 'marked as duplicate' timeline entry; CI drift detection catches stale .lock.yml files; MCP server hardened to bind 127.0.0.1 only.", "link": "https://github.com/githubnext/gh-aw/releases/tag/v0.82.3" },
+  { "date": "2026-07-02", "tag": "v0.82.2", "title": "ARC/DinD runner support + per-skill GitHub auth", "summary": "Compiled workflows now run reliably on Actions Runner Controller / Docker-in-Docker topologies; each skills: entry can carry its own github-token or github-app credential; create-pull-request reviewers/assignees accept runtime template expressions.", "link": "https://github.com/githubnext/gh-aw/releases/tag/v0.82.2" },
+  { "date": "2026-06-30", "tag": "v0.82.1", "title": "v0.82.1 pre-release", "summary": "Incremental fixes and improvements on the 0.82 line — see the release notes for details.", "link": "https://github.com/githubnext/gh-aw/releases/tag/v0.82.1" },
+  { "date": "2026-07-07", "tag": "lab", "title": "This demo lab now updates itself", "summary": "A new weekly agentic workflow (site-updater) watches githubnext/gh-aw for releases and doc changes, updates this What's New section in the hosted site, and opens a pull request — a live example of the docs-gardener pattern applied to this very page.", "link": "https://github.com/haslam93/gh-aw-demo-lab/blob/main/.github/workflows/site-updater.md" },
+  { "date": "2026-06-24", "tag": "lab", "title": "Org-level Copilot billing — zero secrets", "summary": "All lab workflows switched from COPILOT_GITHUB_TOKEN PATs to permissions: copilot-requests: write. Inference now authenticates with the built-in Actions token, billed through the organization's Copilot plan.", "link": "https://github.com/haslam93/gh-aw-demo-lab#-setup--none-required-" }
+]
+    </script>
+
+    <div class="note sec" style="margin-top:16px"><strong>How the badge works:</strong> the page compares each entry's <code>date</code> to today at load time — anything ≤ 14 days old is tagged <span class="new-badge" style="animation:none">NEW</span>, and the sidebar link gets a count. The updater agent only edits the JSON; the rendering logic stays untouched, which keeps the agent's diff small, reviewable, and safe.</div>
+    <p class="small muted">Sources watched: <a href="https://github.com/githubnext/gh-aw/releases" target="_blank">gh-aw releases</a> &middot; <a href="https://github.github.com/gh-aw/" target="_blank">official docs</a> &middot; <a href="https://github.com/githubnext/agentics" target="_blank">agentics samples</a></p>
   </section>
 
   <!-- ================= PIPELINE ================= -->
@@ -1008,6 +1046,36 @@ document.addEventListener('click', e => {
     setTimeout(() => e.target.textContent = 'Copy', 1200);
   });
 });
+
+/* ---------- What's New (data maintained by site-updater agentic workflow) ---------- */
+(function renderWhatsNew(){
+  const dataEl = document.getElementById('whatsnew-data');
+  const list = document.getElementById('wn-list');
+  if (!dataEl || !list) return;
+  let items;
+  try { items = JSON.parse(dataEl.textContent); } catch(e) { list.innerHTML = '<p class="small muted">Could not parse update data.</p>'; return; }
+  items.sort((a,b) => b.date.localeCompare(a.date));
+  const FRESH_DAYS = 14;
+  const now = Date.now();
+  let freshCount = 0;
+  list.innerHTML = items.map(it => {
+    const isFresh = (now - new Date(it.date + 'T00:00:00').getTime()) <= FRESH_DAYS * 86400000;
+    if (isFresh) freshCount++;
+    const tagClass = it.tag === 'lab' ? 'accent' : (it.tag === 'docs' ? 'ok' : '');
+    return '<div class="wn-item">'
+      + '<div class="wn-head"><span class="pill ' + tagClass + '">' + esc(it.tag) + '</span>'
+      + '<span class="wn-date">' + esc(it.date) + '</span>'
+      + (isFresh ? '<span class="new-badge">NEW</span>' : '') + '</div>'
+      + '<h4>' + esc(it.title) + '</h4>'
+      + '<p>' + esc(it.summary)
+      + (it.link ? ' <a href="' + esc(it.link) + '" target="_blank">Details ↗</a>' : '') + '</p>'
+      + '</div>';
+  }).join('');
+  if (freshCount > 0) {
+    const nav = document.getElementById('nav-whatsnew');
+    if (nav) nav.insertAdjacentHTML('beforeend', '<span class="new-badge">' + freshCount + ' NEW</span>');
+  }
+})();
 
 /* ---------- Pipeline detail ---------- */
 const pipeData = [
@@ -1764,6 +1832,35 @@ broken links, outdated CLI flags, renamed APIs, stale examples.
 Fix what you find and open ONE draft pull request with a clear
 summary of each change. Do not touch anything outside docs.`,
   d:'The "wake up to a ready-to-review PR" experience — Claude engine with max-turns, edit tool, and a draft PR so humans always approve the merge.'},
+
+  {id:'Self-updating site', code:
+`---
+on:
+  schedule:
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+permissions:
+  contents: read
+  copilot-requests: write
+tools:
+  edit:
+  github:
+    toolsets: [default]
+safe-outputs:
+  create-pull-request:
+    title-prefix: "[site-updater] "
+    labels: [docs, automated]
+---
+
+# Weekly Site Updater
+
+Check githubnext/gh-aw for releases newer than the latest entry in
+the whatsnew-data JSON block inside docs/index.html. For each new
+release, summarize the highlights into a JSON entry and insert it
+at the top of the array in BOTH docs/index.html and demo.html.
+The page renders a NEW badge for entries younger than 14 days.
+If nothing new, finish without creating a pull request.`,
+  d:'Meta-automation: the workflow that maintains this very page\'s 📰 What\'s New section. The agent edits only a JSON data island — small, reviewable diffs — and the page\'s JS does the rendering and NEW-badge logic.'},
 ];
 const exTabs = document.getElementById('ex-tabs');
 const exBody = document.getElementById('ex-body');
@@ -1786,6 +1883,7 @@ const exLive = {
   'Slash-command PR review': ['slash-review.md', 'comment /review on a PR or issue'],
   'Orchestrator + workers': ['weekly-ops-orchestrator.md', 'gh aw run weekly-ops-orchestrator'],
   'Docs fixer (creates PRs)': ['docs-gardener.md', 'gh aw run docs-gardener'],
+  'Self-updating site': ['site-updater.md', 'gh aw run site-updater'],
 };
 function renderEx(x){
   const lv = exLive[x.id];

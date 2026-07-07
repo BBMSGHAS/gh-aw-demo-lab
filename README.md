@@ -35,6 +35,7 @@ gh aw status   # verify everything is compiled and active
 | 4 | [`docs-gardener.md`](.github/workflows/docs-gardener.md) | `gh aw run docs-gardener` | **doc-reviewer persona**, `edit` tool, draft `create-pull-request` | Safe Outputs / Examples |
 | 5 | [`weekly-ops-orchestrator.md`](.github/workflows/weekly-ops-orchestrator.md) | `gh aw run weekly-ops-orchestrator` | **multi-agent orchestration**: `dispatch-workflow` fans out to [`triage-worker`](.github/workflows/triage-worker.md) + [`dep-audit-worker`](.github/workflows/dep-audit-worker.md) | Multi-Agent Orchestration |
 | 6 | [`ci-doctor.md`](.github/workflows/ci-doctor.md) | Run **CI** workflow with `force_fail=true` | `workflow_run` trigger, log analysis, `deduplicate-by-title` | Examples (CI doctor) |
+| 7 | [`site-updater.md`](.github/workflows/site-updater.md) | `gh aw run site-updater` | **self-updating site**: weekly agent tracks [gh-aw releases](https://github.com/githubnext/gh-aw/releases), refreshes the [live site's](https://haslam93.github.io/gh-aw-demo-lab/) 📰 *What's New* JSON (auto **NEW** badges), opens a PR | What's New / Examples |
 
 ### Agent personas (`.github/agents/`)
 
