@@ -272,6 +272,9 @@ ul.tight li { margin: 3px 0; max-width: 76ch; }
     <a class="navlink" data-sec="simulator"><span class="k">▶️</span>Run Simulator</a>
     <a class="navlink" data-sec="examples"><span class="k">📚</span>Examples Gallery</a>
     <a class="navlink" data-sec="quickstart"><span class="k">🚀</span>Quick Start</a>
+    <div class="navgrp">Live Lab</div>
+    <a class="navlink" href="https://github.com/haslam93/gh-aw-demo-lab" target="_blank" style="color: var(--cp-accent); font-weight:600;"><span class="k">🧪</span>gh-aw-demo-lab ↗</a>
+    <a class="navlink" href="https://github.com/haslam93/gh-aw-demo-lab/actions" target="_blank"><span class="k">▶️</span>Live Actions runs ↗</a>
   </nav>
 
   <main class="main">
@@ -332,6 +335,8 @@ Include:
       <div class="card"><h4>🔁 Engine-agnostic</h4><p class="small muted">Change <code>engine: copilot</code> to <code>engine: claude</code> and recompile. Same workflow, different agent, same guardrails.</p></div>
       <div class="card"><h4>🕸️ Multi-agent</h4><p class="small muted">Orchestrator workflows fan out to worker workflows via <code>dispatch-workflow</code> and <code>call-workflow</code> safe outputs — agents calling agents, safely.</p></div>
     </div>
+
+    <div class="note sec" style="margin-top:20px"><strong>🧪 This page has a live companion repo:</strong> <a href="https://github.com/haslam93/gh-aw-demo-lab" target="_blank">haslam93/gh-aw-demo-lab</a> — every example below exists there as a real, compiled, runnable workflow. Open an issue there and watch the triage agent respond; run the orchestrator and watch it dispatch worker agents. Look for the <strong>▶ Run it live</strong> links throughout this page.</div>
 
     <h3>Vocabulary cheat-sheet</h3>
     <table>
@@ -615,6 +620,8 @@ issues, `dependency-audit-worker` for outdated dependencies. Pass a
       <li>Examples: multi-repo rollouts, phased dependency upgrades, initiative-level automation across many issues/PRs</li>
     </ul>
     <div class="note">Pass shared context (e.g. a <code>tracker_id</code> string) as an explicit worker input and have workers write it into a Project custom field — both orchestrator and workers can then update one board for visibility.</div>
+
+    <div class="note sec"><strong>▶ Run it live:</strong> the demo-lab repo has this exact pattern wired up — <a href="https://github.com/haslam93/gh-aw-demo-lab/blob/main/.github/workflows/weekly-ops-orchestrator.md" target="_blank">weekly-ops-orchestrator.md</a> dispatches <a href="https://github.com/haslam93/gh-aw-demo-lab/blob/main/.github/workflows/triage-worker.md" target="_blank">triage-worker.md</a> and <a href="https://github.com/haslam93/gh-aw-demo-lab/blob/main/.github/workflows/dep-audit-worker.md" target="_blank">dep-audit-worker.md</a> with a shared <code>tracker_id</code>. Trigger with <code>gh aw run weekly-ops-orchestrator</code> and watch the fan-out in the <a href="https://github.com/haslam93/gh-aw-demo-lab/actions" target="_blank">Actions tab</a>.</div>
 
     <h3>Three ways "different agents" show up in gh-aw</h3>
     <div class="grid c3">
@@ -1290,8 +1297,10 @@ const agCode = document.getElementById('ag-code');
 const agNote = document.getElementById('ag-note');
 const agDesc = document.getElementById('ag-desc');
 const agUsage = document.getElementById('ag-usage');
+const agLive = { 'security-reviewer.md':1, 'doc-reviewer.md':1, 'triage-bot.md':1 };
 function renderAgent(a){
-  agDesc.innerHTML = '<strong><code>.github/agents/' + a.file + '</code></strong> — ' + a.d;
+  const live = agLive[a.file] ? ' · <a href="https://github.com/haslam93/gh-aw-demo-lab/blob/main/.github/agents/' + a.file + '" target="_blank">▶ view live in demo-lab repo</a>' : '';
+  agDesc.innerHTML = '<strong><code>.github/agents/' + a.file + '</code></strong> — ' + a.d + live;
   agUsage.textContent = a.usage;
   agCode.innerHTML = '';
   agNote.innerHTML = '<h4>👈 Click a line</h4><p class="small muted">Select any highlighted line of the agent file to see an explanation.</p>';
@@ -1767,8 +1776,19 @@ exData.forEach((x, i) => {
   });
   exTabs.appendChild(b);
 });
+const repoBase = 'https://github.com/haslam93/gh-aw-demo-lab';
+const exLive = {
+  'Daily status report': ['daily-team-status.md', 'gh aw run daily-team-status'],
+  'Issue triage on open': ['issue-triage.md', 'open any issue in the repo'],
+  'CI doctor (failure analysis)': ['ci-doctor.md', 'run CI with force_fail=true'],
+  'Slash-command PR review': ['slash-review.md', 'comment /review on a PR or issue'],
+  'Orchestrator + workers': ['weekly-ops-orchestrator.md', 'gh aw run weekly-ops-orchestrator'],
+  'Docs fixer (creates PRs)': ['docs-gardener.md', 'gh aw run docs-gardener'],
+};
 function renderEx(x){
-  exBody.innerHTML = '<p class="small muted" style="margin:12px 0">' + x.d + '</p>' +
+  const lv = exLive[x.id];
+  const liveHtml = lv ? '<div class="note sec" style="margin:10px 0"><strong>▶ Run it live:</strong> <a href="' + repoBase + '/blob/main/.github/workflows/' + lv[0] + '" target="_blank">.github/workflows/' + lv[0] + '</a> in the demo-lab repo — trigger: <code>' + lv[1] + '</code> · <a href="' + repoBase + '/blob/main/.github/workflows/' + lv[0].replace('.md','.lock.yml') + '" target="_blank">view compiled .lock.yml</a></div>' : '';
+  exBody.innerHTML = '<p class="small muted" style="margin:12px 0">' + x.d + '</p>' + liveHtml +
     '<div class="codewrap"><button class="copybtn">Copy</button><pre class="code">' + esc(x.code) + '</pre></div>';
 }
 renderEx(exData[0]);
