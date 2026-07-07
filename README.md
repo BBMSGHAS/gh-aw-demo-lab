@@ -1,6 +1,10 @@
 # 🧪 gh-aw Demo Lab
 
-A live companion repository for the **[GitHub Agentic Workflows (gh-aw)](https://github.github.com/gh-aw/) Interactive Demo Lab** HTML app ([`demo.html`](demo.html) — download and open locally, or open the raw file in a browser).
+[![Interactive Demo Lab](https://img.shields.io/badge/▶_Open_the_Interactive_Demo_Lab-b11f4b?style=for-the-badge)](https://haslam93.github.io/gh-aw-demo-lab/)
+
+A live companion repository for the **[GitHub Agentic Workflows (gh-aw)](https://github.github.com/gh-aw/) Interactive Demo Lab** HTML app.
+
+**🌐 View it live: [haslam93.github.io/gh-aw-demo-lab](https://haslam93.github.io/gh-aw-demo-lab/)** — 14 interactive sections covering the pipeline, workflow anatomy, AI engines & agent personas, safe outputs, multi-agent orchestration, AWF sandbox security, authentication, a workflow builder, and a run simulator. (Also available in-repo as [`demo.html`](demo.html).)
 
 Every example in the HTML app maps to a **real, compiled, runnable workflow** in this repo, so you can flip from concept → live run in one click.
 
