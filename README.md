@@ -1,0 +1,67 @@
+# 🧪 gh-aw Demo Lab
+
+A live companion repository for the **[GitHub Agentic Workflows (gh-aw)](https://github.github.com/gh-aw/) Interactive Demo Lab** HTML app ([`demo.html`](demo.html) — download and open locally, or open the raw file in a browser).
+
+Every example in the HTML app maps to a **real, compiled, runnable workflow** in this repo, so you can flip from concept → live run in one click.
+
+## 🚀 One-time setup
+
+Workflows use the **Copilot engine**. Pick ONE auth method:
+
+```bash
+# Option A (recommended if your org has centralized Copilot billing):
+#   add `copilot-requests: write` under `permissions:` in each workflow .md, then: gh aw compile
+
+# Option B — fine-grained PAT (personal repos):
+#   Create a PAT with Account permissions -> Copilot Requests: Read, then:
+gh aw secrets set COPILOT_GITHUB_TOKEN --value "<your-pat>"
+
+# Verify everything:
+gh aw status
+```
+
+## 🎬 The demos
+
+| # | Workflow | Trigger it live | Demonstrates | HTML section |
+|---|----------|-----------------|--------------|--------------|
+| 1 | [`daily-team-status.md`](.github/workflows/daily-team-status.md) | `gh aw run daily-team-status` | schedule trigger, `create-issue`, `close-older-issues` | Overview / Examples |
+| 2 | [`issue-triage.md`](.github/workflows/issue-triage.md) | Open any issue in this repo | event trigger, 👀 `reaction`, **triage-bot persona**, label allowlist, `add-comment` | Workflow Anatomy / AI Engines |
+| 3 | [`slash-review.md`](.github/workflows/slash-review.md) | Comment `/review` on a PR or issue | slash command, **security-reviewer persona**, on-demand agents | AI Engines / Examples |
+| 4 | [`docs-gardener.md`](.github/workflows/docs-gardener.md) | `gh aw run docs-gardener` | **doc-reviewer persona**, `edit` tool, draft `create-pull-request` | Safe Outputs / Examples |
+| 5 | [`weekly-ops-orchestrator.md`](.github/workflows/weekly-ops-orchestrator.md) | `gh aw run weekly-ops-orchestrator` | **multi-agent orchestration**: `dispatch-workflow` fans out to [`triage-worker`](.github/workflows/triage-worker.md) + [`dep-audit-worker`](.github/workflows/dep-audit-worker.md) | Multi-Agent Orchestration |
+| 6 | [`ci-doctor.md`](.github/workflows/ci-doctor.md) | Run **CI** workflow with `force_fail=true` | `workflow_run` trigger, log analysis, `deduplicate-by-title` | Examples (CI doctor) |
+
+### Agent personas (`.github/agents/`)
+
+Exactly the persona files explored in the HTML app's **AI Engines → Custom agent personas** tab:
+
+- [`triage-bot.md`](.github/agents/triage-bot.md) — friendly issue concierge (used by demos 2 & 5)
+- [`security-reviewer.md`](.github/agents/security-reviewer.md) — appsec specialist (demo 3)
+- [`doc-reviewer.md`](.github/agents/doc-reviewer.md) — technical-writing editor (demo 4)
+
+## 🎥 Suggested live-demo script (~10 min)
+
+1. **Show the source** — open `issue-triage.md`: "this markdown *is* the automation." Then open its `.lock.yml`: "and this is what `gh aw compile` hardens it into."
+2. **Trigger demo 2** — open an issue titled *"App crashes when uploading large files"* (mention `app/index.js`). Watch the 👀 reaction appear, then labels + a triage comment arrive. Point out the agent had **zero write permissions**.
+3. **Safe-output gate** — show that the workflow can only apply the 5 allowed labels, `max: 3`.
+4. **Multi-agent** — `gh aw run weekly-ops-orchestrator`, then open the Actions tab: watch it dispatch `triage-worker` and `dep-audit-worker` as independent runs, then file an `[ops-plan]` issue.
+5. **CI Doctor** — Actions → CI → Run workflow with `force_fail=true` → a diagnosed `[ci-doctor]` issue appears.
+6. **Cost & audit** — `gh aw logs` and `gh aw audit`.
+
+> The `package.json` intentionally pins old dependencies (`lodash 4.17.15`, `request`) so the dependency-audit worker always has something real to find. `app/index.js` has a missing size-guard for the triage/security demos to discover.
+
+## 🔧 Handy commands
+
+```bash
+gh aw status                       # list workflow states
+gh aw compile                      # recompile after editing any .md
+gh aw run <workflow>               # trigger a run
+gh aw logs                         # token/AI-credit spend per run
+gh aw audit                        # deep run analysis
+```
+
+## 📚 Learn more
+
+- 📖 Official docs: https://github.github.com/gh-aw/
+- 🧪 Sample collection: https://github.com/githubnext/agentics
+- 🖥️ The interactive HTML lab: [`demo.html`](demo.html) in this repo

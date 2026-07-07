@@ -1,0 +1,25 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      force_fail:
+        description: "Set to 'true' to force a failure (demos the CI Doctor agent)"
+        required: false
+        default: "false"
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run tests
+        run: node app/test.js
+      - name: Optional forced failure (demo hook)
+        if: ${{ github.event.inputs.force_fail == 'true' }}
+        run: |
+          echo "::error::Simulated flaky test failure — parser_test.js timed out after 30s"
+          exit 1

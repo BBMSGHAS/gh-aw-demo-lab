@@ -1,0 +1,13 @@
+{
+  "name": "gh-aw-demo-lab",
+  "version": "1.0.0",
+  "description": "Live demo lab for GitHub Agentic Workflows (gh-aw)",
+  "private": true,
+  "scripts": {
+    "test": "node app/test.js"
+  },
+  "dependencies": {
+    "lodash": "4.17.15",
+    "request": "2.88.2"
+  }
+}
