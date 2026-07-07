@@ -6,6 +6,7 @@ on:
   reaction: eyes
 permissions:
   contents: read
+  copilot-requests: write
   issues: read
   pull-requests: read
 engine: copilot

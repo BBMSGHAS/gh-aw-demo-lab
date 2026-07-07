@@ -6,6 +6,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+  copilot-requests: write
 engine: copilot
 imports:
   - .github/agents/doc-reviewer.md

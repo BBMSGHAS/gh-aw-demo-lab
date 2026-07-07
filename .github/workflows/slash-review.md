@@ -5,6 +5,7 @@ on:
     name: review
 permissions:
   contents: read
+  copilot-requests: write
   pull-requests: read
   issues: read
 engine: copilot

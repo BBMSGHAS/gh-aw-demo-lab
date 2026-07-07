@@ -8,6 +8,7 @@ on:
 if: ${{ github.event.workflow_run.conclusion == 'failure' }}
 permissions:
   contents: read
+  copilot-requests: write
   actions: read
   issues: read
   pull-requests: read

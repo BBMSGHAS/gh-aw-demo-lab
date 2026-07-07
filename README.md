@@ -4,20 +4,21 @@ A live companion repository for the **[GitHub Agentic Workflows (gh-aw)](https:/
 
 Every example in the HTML app maps to a **real, compiled, runnable workflow** in this repo, so you can flip from concept → live run in one click.
 
-## 🚀 One-time setup
+## 🚀 Setup — none required 🎉
 
-Workflows use the **Copilot engine**. Pick ONE auth method:
+Workflows use the **Copilot engine with org-level billing**: every workflow declares
+`copilot-requests: write` under `permissions:`, so inference authenticates with the
+built-in GitHub Actions token (`${{ github.token }}`). **No PAT, no secrets.**
+Tokens are minted per-run and auto-revoked; billing flows through the organization's
+Copilot plan.
+
+> **Fallback:** if your org doesn't have centralized Copilot billing, runs fail with
+> `403` at the inference step. Remove `copilot-requests: write` from the workflow
+> frontmatter, recompile with `gh aw compile`, and set a PAT instead:
+> `gh aw secrets set COPILOT_GITHUB_TOKEN --value "<fine-grained PAT with Copilot Requests: Read>"`
 
 ```bash
-# Option A (recommended if your org has centralized Copilot billing):
-#   add `copilot-requests: write` under `permissions:` in each workflow .md, then: gh aw compile
-
-# Option B — fine-grained PAT (personal repos):
-#   Create a PAT with Account permissions -> Copilot Requests: Read, then:
-gh aw secrets set COPILOT_GITHUB_TOKEN --value "<your-pat>"
-
-# Verify everything:
-gh aw status
+gh aw status   # verify everything is compiled and active
 ```
 
 ## 🎬 The demos

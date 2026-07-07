@@ -1038,6 +1038,7 @@ const anaLines = [
   ['permissions:', 'READ permissions for the agentic part only. The agent never gets write scopes — writes happen in separate safe-output jobs.'],
   ['  contents: read', null],
   ['  issues: read', null],
+  ['  copilot-requests: write', 'The new org-billing auth: Copilot inference uses the built-in Actions token — no PAT/secret. Requires org centralized Copilot billing; otherwise use a COPILOT_GITHUB_TOKEN PAT. See the Authentication section.'],
   ['engine: copilot', 'Which coding agent interprets the markdown: copilot (default), claude, codex, or gemini. Extended form supports version pinning, model override, custom agent files, and BYOK.'],
   ['network:', 'The AWF firewall allowlist. Egress to any domain not listed here is blocked at the network layer.'],
   ['  allowed: [defaults]', '"defaults" covers basic infrastructure. Add ecosystems (python, node) or specific domains ("api.example.com").'],
@@ -1504,6 +1505,7 @@ function buildWf(){
   if (v('b-g-stopafter').checked) f += '  stop-after: "+30d"   # trial mode: auto-disable in 30 days\n';
   if (v('b-g-approval').checked) f += '  manual-approval: production   # environment protection gate\n';
   f += 'permissions:\n  contents: read\n  issues: read\n  pull-requests: read\n';
+  if (eng === 'copilot') f += '  copilot-requests: write   # org-billed inference, no PAT needed\n';
   f += 'engine: ' + eng + '\n';
   if (v('b-g-network').checked) f += 'network:\n  allowed: [defaults]\n';
   const tools = [];

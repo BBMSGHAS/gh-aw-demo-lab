@@ -9,6 +9,7 @@ on:
         type: string
 permissions:
   contents: read
+  copilot-requests: write
   issues: read
 engine: copilot
 network:
